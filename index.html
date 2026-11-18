@@ -226,7 +226,7 @@ mark{background:linear-gradient(transparent 56%,rgba(242,193,78,.7) 56%);color:i
 .cert-msg p{margin:0;font-size:16px;line-height:1.5}
 .cert-wrap{border-radius:16px;overflow:hidden;box-shadow:0 0 0 3px var(--ink),0 10px 0 rgba(0,0,0,.22),0 0 60px 8px rgba(249,224,138,.28)}
 .cert-wrap img,.cert-wrap canvas{display:block;width:100%;height:auto;-webkit-touch-callout:default}
-.cert-loading{aspect-ratio:1080/1500;display:grid;place-items:center;padding:20px;background:var(--paper);color:var(--muted);text-align:center}
+.cert-loading{aspect-ratio:1080/1640;display:grid;place-items:center;padding:20px;background:var(--paper);color:var(--muted);text-align:center}
 .save-hint{display:flex;align-items:center;justify-content:center;gap:8px;margin:0;font-size:15px;color:var(--soft);text-align:center}
 .save-hint svg{flex:none;width:26px;height:26px}
 /* modals */
@@ -528,9 +528,6 @@ function certNo() { return `${new Date().getFullYear()}-${String(rnd(10000)).pad
 const backURL = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(CARD_BACK);
 const urlCache = {};
 const frontURL = (iid, k) => urlCache[iid + k] || (urlCache[iid + k] = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(CARDS[iid][k]));
-const mascotImg = new Image();
-const mascotReady = new Promise(r => { mascotImg.onload = mascotImg.onerror = () => r(); });
-mascotImg.src = MASCOT;
 let fbCount = 0;
 document.addEventListener('error', e => {
   const t = e.target;
@@ -815,8 +812,7 @@ function squareSeal(x, X, Y, s) {
 }
 async function drawCert() {
   await loadFonts(S.name || '');
-  await mascotReady;
-  const W = 1080, H = 1500, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const W = 1080, H = 1640, c = document.createElement('canvas'); c.width = W; c.height = H;
   const x = c.getContext('2d'), ink = '#2B2424', gold = '#C9A24A';
   x.fillStyle = '#FBF5E4'; x.fillRect(0, 0, W, H);
   const g = x.createRadialGradient(W / 2, H * .45, H * .22, W / 2, H * .45, H * .82);
@@ -854,11 +850,10 @@ async function drawCert() {
     x.fillStyle = '#6B5E58'; x.font = `30px ${F_BODY}`; x.fillText(st.name, xs[i], sy + 152);
   });
   x.textAlign = 'left'; x.fillStyle = '#6B5E58'; x.font = `29px ${F_BODY}`;
-  x.fillText(`발급일  ${S.cert.date}`, 118, 1300);
-  x.fillText(`인증번호  제${S.cert.no}호`, 118, 1346);
-  x.fillStyle = ink; x.font = `46px ${F_TITLE}`; x.fillText('인덕대학교 혁신지원사업', 118, 1414);
-  squareSeal(x, 118 + x.measureText('인덕대학교 혁신지원사업').width + 16, 1352, 78);
-  if (mascotImg.naturalWidth) { const mw = 232, mh = mw * mascotImg.naturalHeight / mascotImg.naturalWidth; x.drawImage(mascotImg, W - 92 - mw, 1424 - mh, mw, mh); }
+  x.fillText(`발급일  ${S.cert.date}`, 118, 1336);
+  x.fillText(`인증번호  제${S.cert.no}호`, 118, 1392);
+  x.fillStyle = ink; x.font = `46px ${F_TITLE}`; x.fillText('인덕대학교 혁신지원사업', 118, 1490);
+  squareSeal(x, 118 + x.measureText('인덕대학교 혁신지원사업').width + 16, 1428, 78);
   return c;
 }
 let certKey = '';
