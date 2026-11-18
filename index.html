@@ -237,7 +237,7 @@ mark{background:linear-gradient(transparent 56%,rgba(242,193,78,.7) 56%);color:i
 .cert-msg p{margin:0;font-size:16px;line-height:1.5}
 .cert-wrap{border-radius:16px;overflow:hidden;box-shadow:0 0 0 3px var(--ink),0 10px 0 rgba(0,0,0,.22),0 0 60px 8px rgba(249,224,138,.28)}
 .cert-wrap img,.cert-wrap canvas{display:block;width:100%;height:auto;-webkit-touch-callout:default}
-.cert-loading{aspect-ratio:1080/1780;display:grid;place-items:center;padding:20px;background:var(--paper);color:var(--muted);text-align:center}
+.cert-loading{aspect-ratio:1080/1854;display:grid;place-items:center;padding:20px;background:var(--paper);color:var(--muted);text-align:center}
 .save-hint{display:flex;align-items:center;justify-content:center;gap:8px;margin:0;font-size:15px;color:var(--soft);text-align:center}
 .save-hint svg{flex:none;width:26px;height:26px}
 /* modals */
@@ -840,7 +840,7 @@ const loadImg = src => new Promise(r => { const i = new Image(); i.onload = () =
 async function drawCert() {
   await loadFonts(S.name || '');
   const avImg = S.char && AVATARS[S.char] ? await loadImg(AVATARS[S.char]) : null;
-  const W = 1080, H = 1780, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const W = 1080, H = 1854, c = document.createElement('canvas'); c.width = W; c.height = H;
   const x = c.getContext('2d'), ink = '#2B2424', gold = '#C9A24A';
   x.fillStyle = '#FBF5E4'; x.fillRect(0, 0, W, H);
   const g = x.createRadialGradient(W / 2, H * .45, H * .22, W / 2, H * .45, H * .82);
@@ -854,19 +854,19 @@ async function drawCert() {
   x.fillStyle = '#9A8662'; spaced(x, 'INDUK UNIVERSITY  ·  INNOVATION', W / 2, 176, `700 25px ${F_EN}`, 5);
   x.textAlign = 'center'; x.fillStyle = ink; x.font = `112px ${F_TITLE}`; x.fillText('혁신인재 인증서', W / 2, 304);
   // 내가 고른 캐릭터: 제목과 이름 사이, 금색 선 가운데
-  const cy0 = 436, R0 = 80;
+  const cy0 = 474, R0 = 118;
   x.strokeStyle = gold; x.lineWidth = 3; x.beginPath(); x.moveTo(W / 2 - R0 - 190, cy0); x.lineTo(W / 2 - R0 - 28, cy0); x.moveTo(W / 2 + R0 + 28, cy0); x.lineTo(W / 2 + R0 + 190, cy0); x.stroke();
   [W / 2 - R0 - 190, W / 2 + R0 + 190].forEach(px => { sparkPath(x, px, cy0, 13); x.fillStyle = gold; x.fill(); });
   if (avImg) {
     x.save(); x.beginPath(); x.arc(W / 2, cy0, R0, 0, Math.PI * 2); x.clip(); x.drawImage(avImg, W / 2 - R0, cy0 - R0, R0 * 2, R0 * 2); x.restore();
     x.strokeStyle = gold; x.lineWidth = 5; x.beginPath(); x.arc(W / 2, cy0, R0, 0, Math.PI * 2); x.stroke();
-    x.lineWidth = 1.5; x.beginPath(); x.arc(W / 2, cy0, R0 + 10, 0, Math.PI * 2); x.stroke();
+    x.lineWidth = 1.5; x.beginPath(); x.arc(W / 2, cy0, R0 + 12, 0, Math.PI * 2); x.stroke();
   } else { sparkPath(x, W / 2, cy0, 26); x.fillStyle = gold; x.fill(); }
   const nm = S.name ? `${S.name} 님` : '혁신인재님';
-  x.fillStyle = ink; fitFont(x, nm, 820, 88, F_TITLE); x.fillText(nm, W / 2, 626);
+  x.fillStyle = ink; fitFont(x, nm, 820, 88, F_TITLE); x.fillText(nm, W / 2, 700);
   const nw = Math.min(880, x.measureText(nm).width + 90);
-  x.strokeStyle = gold; x.lineWidth = 3; x.beginPath(); x.moveTo(W / 2 - nw / 2, 658); x.lineTo(W / 2 + nw / 2, 658); x.stroke();
-  let y0 = 700;
+  x.strokeStyle = gold; x.lineWidth = 3; x.beginPath(); x.moveTo(W / 2 - nw / 2, 732); x.lineTo(W / 2 + nw / 2, 732); x.stroke();
+  let y0 = 774;
   if (S.tarot) {
     const k = KEYS[S.tarot.key], it = interestOf(S.tarot.interest), job = it.jobs[S.tarot.key][0];
     const label = `${k.num} · ${k.kw}의 카드`;
@@ -878,17 +878,17 @@ async function drawCert() {
   } else y0 += 60;
   x.fillStyle = '#3D3434'; x.font = `38px ${F_BODY}`;
   wrapText(x, '위 사람은 혁신 타로, VR 체험, 혁신인재 퀴즈 세 관문을 모두 통과하였기에 혁신인재로 인정합니다.', 800).forEach((ln, i) => x.fillText(ln, W / 2, y0 + i * 62));
-  const sy = 1216, xs = [W / 2 - 290, W / 2, W / 2 + 290];
+  const sy = 1290, xs = [W / 2 - 290, W / 2, W / 2 + 290];
   STATIONS.forEach((st, i) => {
     const sc = sealCanvas(st, 440);
     x.save(); x.translate(xs[i], sy); x.rotate(st.rot * Math.PI / 180); x.globalAlpha = .94; x.drawImage(sc, -112, -112, 224, 224); x.restore();
     x.fillStyle = '#6B5E58'; x.font = `30px ${F_BODY}`; x.fillText(st.name, xs[i], sy + 152);
   });
   x.textAlign = 'left'; x.fillStyle = '#6B5E58'; x.font = `29px ${F_BODY}`;
-  x.fillText(`발급일  ${S.cert.date}`, 118, 1476);
-  x.fillText(`인증번호  제${S.cert.no}호`, 118, 1532);
-  x.fillStyle = ink; x.font = `46px ${F_TITLE}`; x.fillText('인덕대학교 혁신지원사업', 118, 1630);
-  squareSeal(x, 118 + x.measureText('인덕대학교 혁신지원사업').width + 16, 1568, 78);
+  x.fillText(`발급일  ${S.cert.date}`, 118, 1550);
+  x.fillText(`인증번호  제${S.cert.no}호`, 118, 1606);
+  x.fillStyle = ink; x.font = `46px ${F_TITLE}`; x.fillText('인덕대학교 혁신지원사업', 118, 1704);
+  squareSeal(x, 118 + x.measureText('인덕대학교 혁신지원사업').width + 16, 1642, 78);
   return c;
 }
 let certKey = '';
